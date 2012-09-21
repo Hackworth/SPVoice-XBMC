@@ -3,8 +3,8 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "siriproxy-xbmc"
-  s.version     = "0.1.0" 
-  s.authors     = ["brainwave9"]
+  s.version     = "0.1.1" 
+  s.authors     = ["hackworth"]
   s.email       = [""]
   s.homepage    = ""
   s.summary     = %q{Siri Proxy Plugin to control XBMC}
