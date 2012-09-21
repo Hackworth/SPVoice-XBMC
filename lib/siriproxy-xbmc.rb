@@ -84,7 +84,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 	listen_for /^stop/i do 
 		if (@xbmc.connect(@active_room))
 			if @xbmc.stop()
-				say "I stopped the video player"
+				say "I stopped the video"
 			else
 				say "There is no video playing"
 			end
@@ -96,7 +96,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 	listen_for /^pause/i do 
 		if (@xbmc.connect(@active_room))
 			if @xbmc.pause()
-				say "I paused the video player"
+				say "I paused the video"
 			else
 				say "There is no video playing"
 			end
@@ -108,7 +108,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 	listen_for /^resume|unpause|continue/i do 
 		if (@xbmc.connect(@active_room))
 			if @xbmc.pause()
-				say "I resumed the video player", spoken: "Resuming video"
+				say "I resumed the video", spoken: "Resuming video"
 			else
 				say "There is no video playing"
 			end
@@ -173,7 +173,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 					if episode_check
 						episode = episode_check[0].match('\d+')
 						episod = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
-						say "Now playing \"#{episod["title"]}\" (#{episod["showtitle"]}, Season #{episod["season"]}, Episode #{episod["episode"]})", spoken: "Now playing \"#{episod["title"]}\""
+						say "Now playing \"#{episod["title"]}\" (#{episod["showtitle"]}, Season #{episod["season"]}, Episode #{episod["episode"]})", spoken: "Now playing \(#{episod["showtitle"]}, #{episod["season"]} X #{episod["episode"]})"
 						@xbmc.play(episod["file"])
 						#search for spefic episode
 					else
