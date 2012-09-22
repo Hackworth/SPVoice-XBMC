@@ -152,10 +152,10 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 
 		if (@xbmc.connect(roomname))
 			if @roomlist.has_key?(roomname)
+			tvshow = @xbmc.find_show(title.split(' season')[0])
 				@active_room = roomname
 			end
 
-			tvshow = @xbmc.find_show(title.split(' season')[0])
 			if (tvshow == "")
 				movie = @xbmc.find_movie(title)
 				if (movie == "")
@@ -172,9 +172,9 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 					#episode_check = numberized_title.match('episode \d+')
 					#if episode_check
 						#episode = episode_check[0].match('\d+')
-						#episod = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
-						#say "Now playing \"#{episod["title"]}\" (#{episod["showtitle"]}, Season #{episod["season"]}, Episode #{episod["episode"]})", spoken: "Now playing \(#{episod["showtitle"]}, #{episod["season"]} X, #{episod["episode"]})"
-						#@xbmc.play(episod["file"])
+						#episode = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
+						#say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken: "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
+						#@xbmc.play(episode["file"])
 						##search for spefic episode
 					#else
 						##search for entire season 
@@ -185,7 +185,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 					if (episode == "")
 						say "No unwatched episode found for the \"#{tvshow["label"]}\""
 					else    
-						say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episod["showtitle"]}, #{episod["season"]} X, #{episod["episode"]})"
+						say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
 						@xbmc.play(episode["file"])
 					end
 				#end
