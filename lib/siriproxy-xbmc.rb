@@ -165,21 +165,21 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 					@xbmc.play(movie["file"])
 				end
 			else  
-				numberized_title = Chronic::Numerizer.numerize(title)
+				#numberized_title = Chronic::Numerizer.numerize(title)
 				#season_check = numberized_title.match('season \d+')
-				if season_check
-					season = season_check[0].match('\d+')[0].to_i
-					episode_check = numberized_title.match('episode \d+')
-					if episode_check
-						episode = episode_check[0].match('\d+')
-						episod = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
-						say "Now playing \"#{episod["title"]}\" (#{episod["showtitle"]}, Season #{episod["season"]}, Episode #{episod["episode"]})", spoken: "Now playing \(#{episod["showtitle"]}, #{episod["season"]} X, #{episod["episode"]})"
-						@xbmc.play(episod["file"])
-						#search for spefic episode
-					else
-						#search for entire season 
-						tvshow = @xbmc.play_season(tvshow["tvshowid"], season)	
-					end
+				#if season_check
+					#season = season_check[0].match('\d+')[0].to_i
+					#episode_check = numberized_title.match('episode \d+')
+					#if episode_check
+						#episode = episode_check[0].match('\d+')
+						#episod = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
+						#say "Now playing \"#{episod["title"]}\" (#{episod["showtitle"]}, Season #{episod["season"]}, Episode #{episod["episode"]})", spoken: "Now playing \(#{episod["showtitle"]}, #{episod["season"]} X, #{episod["episode"]})"
+						#@xbmc.play(episod["file"])
+						##search for spefic episode
+					#else
+						##search for entire season 
+						#tvshow = @xbmc.play_season(tvshow["tvshowid"], season)	
+					#end
 				else
 					episode = @xbmc.find_first_unwatched_episode(tvshow["tvshowid"])
 					if (episode == "")
