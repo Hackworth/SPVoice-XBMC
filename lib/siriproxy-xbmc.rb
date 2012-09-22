@@ -165,22 +165,22 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 					@xbmc.play(movie["file"])
 				end
 			else  
-				#numberized_title = Chronic::Numerizer.numerize(title)
-				#season_check = numberized_title.match('season \d+')
-				#if season_check
-					#season = season_check[0].match('\d+')[0].to_i
-					#episode_check = numberized_title.match('episode \d+')
-					#if episode_check
-						#episode = episode_check[0].match('\d+')
-						#episode = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
-						#say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken: "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
-						#@xbmc.play(episode["file"])
-						##search for spefic episode
-					#else
-						##search for entire season 
-						#tvshow = @xbmc.play_season(tvshow["tvshowid"], season)	
-					#end
-				#else
+        numberized_title = Chronic::Numerizer.numerize(title)
+        season_check = numberized_title.match('season \d+')
+        if season_check
+          season = season_check[0].match('\d+')[0].to_i
+          episode_check = numberized_title.match('episode \d+')
+          if episode_check
+            episode = episode_check[0].match('\d+')
+            episode = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
+            say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken: "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
+            @xbmc.play(episode["file"])
+            #search for spefic episode
+          else
+            #search for entire season 
+            tvshow = @xbmc.play_season(tvshow["tvshowid"], season)	
+          end
+        else
 					episode = @xbmc.find_first_unwatched_episode(tvshow["tvshowid"])
 					if (episode == "")
 						say "No unwatched episode found for the \"#{tvshow["label"]}\""
@@ -188,7 +188,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 						say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
 						@xbmc.play(episode["file"])
 					end
-				#end
+        end
 			end
 		else 
 			say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
