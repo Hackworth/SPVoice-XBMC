@@ -21,7 +21,7 @@ Installation
 To install SiriProxy-XBMC, add the following to your Siri Proxy config.yml file (~/.siriproxy/config.yml):
 
     - name: 'XBMC'
-      git: 'git://github.com/brainwave9/SiriProxy-XBMC.git'
+      git: 'git://github.com/Hackworth/SiriProxy-XBMC.git'
       xbmc_host: '192.168.1.4' #Internal IP address of your computer running XBMC.
       xbmc_port: 8080          #Port that the XBMC interface listens to.
       xbmc_username: 'xbmc'    #Username as specified in XBMC
@@ -31,7 +31,7 @@ Stop Siri Proxy (CTRL-C if it's running in the foreground or `killall siriproxy`
 
 Update Siri Proxy (`siriproxy update`)
           
-Start Siri Proxy (`siriproxy server`)
+Start Siri Proxy (`rvmsudo siriproxy server`)
 
 The SiriProxy-XBMC plugin should now be ready for use.
 
@@ -75,11 +75,17 @@ Optionally you can specify a room name if you have configured the plugin for mul
 These commands set the active room.
 All commands will be sent to this room, until you specify another room of course.
 
-    play <title> [in the <room name>]
+    watch <title> [in the <room name>]
 
 This command will first look in your TV show library and play the first unwatched episode.
 If no TV show is found, it will look in your movie library and play the first matching movie.
 If you specify a room name, it will be played in that room and the active room will be updated.
+
+    watch <show name> <season number> [episode number]
+
+You are able to specify a season and episode number, to play a specific
+episode. If only a season is given, it will play the first episode in
+that season and queue up the rest of the episodes.
 
     pause
 
@@ -107,5 +113,3 @@ I'm open to suggestions on how to improve this further.
 The plugin is currently not able to handle multiple users controlling multiple rooms at the same time.
 It can currently only keep track of the last active room.
 I hope to find a way of identifying seperate users so I can keep track of active rooms per user.
-
-
