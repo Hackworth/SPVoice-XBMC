@@ -138,7 +138,7 @@ class XBMCLibrary
       if (episode["playcount"] == 0)
         return episode
       end         
-    }
+    } unless episodes.nil?
         return result
   end
 
