@@ -188,7 +188,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 						say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episod["showtitle"]}, #{episod["season"]} X, #{episod["episode"]})"
 						@xbmc.play(episode["file"])
 					end
-				end
+				#end
 			end
 		else 
 			say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
