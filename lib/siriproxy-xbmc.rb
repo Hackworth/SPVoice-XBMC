@@ -180,7 +180,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 						##search for entire season 
 						#tvshow = @xbmc.play_season(tvshow["tvshowid"], season)	
 					#end
-				else
+				#else
 					episode = @xbmc.find_first_unwatched_episode(tvshow["tvshowid"])
 					if (episode == "")
 						say "No unwatched episode found for the \"#{tvshow["label"]}\""
