@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "siriproxy-xbmc"
-  s.version     = "0.1.10" 
+  s.version     = "0.1.11" 
   s.authors     = ["hackworth"]
   s.email       = [""]
   s.homepage    = ""
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<i18n>, [">= 0"])
       s.add_runtime_dependency(%q<chronic>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 2.10.3"])
-      s.add_development_dependency(%q<fuzzy_match>, [">= 1.4.0"])
+      s.add_runtime_dependency(%q<fuzzy_match>, [">= 1.4.0"])
     else
       s.add_dependency(%q<httparty>, [">= 0.6.0"])
       s.add_dependency(%q<json>, [">= 1.4.5"])
