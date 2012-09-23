@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "siriproxy-xbmc"
-  s.version     = "0.1.9" 
+  s.version     = "0.1.10" 
   s.authors     = ["hackworth"]
   s.email       = [""]
   s.homepage    = ""
