@@ -115,7 +115,7 @@ class XBMCLibrary
     else
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
     end
-    matcher = FuzzyMatch.new(tvshows.all, :read => tvshows["label"].downcase.gsub(/[^0-9A-Za-z]/, ''))
+    matcher = FuzzyMatch.new(tvshows.all, :read => :label)
     result = matcher.find(title)
     return result
   end
