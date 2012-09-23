@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<i18n>, [">= 0"])
       s.add_runtime_dependency(%q<chronic>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 2.10.3"])
+      s.add_development_dependency(%q<fuzzy_match>, [">= 1.4.0"])
     else
       s.add_dependency(%q<httparty>, [">= 0.6.0"])
       s.add_dependency(%q<json>, [">= 1.4.5"])
@@ -40,6 +41,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<i18n>, [">= 0"])
       s.add_dependency(%q<chronic>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 2.10.3"])
+      s.add_dependency(%q<fuzzy_match>, [">= 1.4.0"])
     end
   else
     s.add_dependency(%q<httparty>, [">= 0.6.0"])
@@ -48,6 +50,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<i18n>, [">= 0"])
     s.add_dependency(%q<chronic>, [">= 0"])
     s.add_dependency(%q<shoulda>, [">= 2.10.3"])
+    s.add_dependency(%q<fuzzy_match>, [">= 1.4.0"])
   end
 
 end
