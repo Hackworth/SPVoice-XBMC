@@ -188,9 +188,8 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
           end
         end
       end
-		else 
+		else
 			say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
 		end
 		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-	end
 end
