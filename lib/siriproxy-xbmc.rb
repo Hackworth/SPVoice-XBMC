@@ -152,44 +152,42 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 
 		if (@xbmc.connect(roomname))
 			if @roomlist.has_key?(roomname)
-			tvshow = @xbmc.find_show(title.split(' season')[0])
+			media = @xbmc.find_media(title.split(' season')[0])
 				@active_room = roomname
 			end
-
-			if (tvshow == "")
-				movie = @xbmc.find_movie(title)
-				if (movie == "")
-					say "Title not found, please try again"
-				else
-					say "Now playing \"#{movie["title"]}\"", spoken: "Now playing \"#{movie["title"]}\""
-					@xbmc.play(movie["file"])
-				end
-			else  
-        numberized_title = Chronic::Numerizer.numerize(title)
-        season_check = numberized_title.match('season \d+')
-        if season_check
-          season = season_check[0].match('\d+')[0].to_i
-          episode_check = numberized_title.match('episode \d+')
-          if episode_check
-            episode = episode_check[0].match('\d+')
-            episode = @xbmc.find_episode(tvshow["tvshowid"], season, episode)
-            say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken: "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
-            @xbmc.play(episode["file"])
-            #search for spefic episode
-          else
-            #search for entire season
-            tvshow = @xbmc.play_season(tvshow["tvshowid"], season)	
-          end
+			if (media == "")
+			  say "Title not found, please try again"
+      else
+        if (media["tvshowid"] == "")
+          say "Now playing \"#{media["title"]}\"", spoken: "Now playing \"#{media["title"]}\""
+          @xbmc.play(media["file"])
         else
-					episode = @xbmc.find_first_unwatched_episode(tvshow["tvshowid"])
-					if (episode == "")
-						say "No unwatched episode found for the \"#{tvshow["label"]}\""
-					else    
-						say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
-						@xbmc.play(episode["file"])
-					end
+          numberized_title = Chronic::Numerizer.numerize(title)
+          season_check = numberized_title.match('season \d+')
+          if season_check
+            season = season_check[0].match('\d+')[0].to_i
+            episode_check = numberized_title.match('episode \d+')
+            if episode_check
+              episode = episode_check[0].match('\d+')
+              episode = @xbmc.find_episode(media["tvshowid"], season, episode)
+              say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken: "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
+              @xbmc.play(episode["file"])
+              #search for spefic episode
+            else
+              #search for entire season
+              media = @xbmc.play_season(media["tvshowid"], season)	
+            end
+          else
+            episode = @xbmc.find_first_unwatched_episode(media["tvshowid"])
+            if (episode == "")
+              say "No unwatched episode found for the \"#{media["label"]}\""
+            else
+              say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
+              @xbmc.play(episode["file"])
+            end
+          end
         end
-			end
+      end
 		else 
 			say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
 		end

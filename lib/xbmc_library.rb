@@ -106,7 +106,7 @@ class XBMCLibrary
     return result
   end
 
-  def find_show(title)
+  def find_media(title)
     puts "[#{@appname}] Finding #{title} (API version #{$apiVersion["version"]})"
     result = ""
     if ($apiVersion["version"] == 2)
@@ -118,7 +118,7 @@ class XBMCLibrary
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
       movies = xbmc('VideoLibrary.GetMovies', { :properties => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
     end
-    matcher = FuzzyMatch.new(tvshows.each { |tvshow| tvshow["label"] }, movies.each { |tvshow| tvshow["label"] } )
+    matcher = FuzzyMatch.new(tvshows.each { |tvshow| tvshow["label"] } movies.each { |movie| movie["label"] } )
     result = matcher.find(title)
     return result
   end
