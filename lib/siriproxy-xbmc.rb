@@ -117,7 +117,6 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 	end
 
 	# set default room
-	# set default room
 	listen_for /(?:(?:[Ii]'m in)|(?:[Ii] am in)|(?:[Uu]se)|(?:[Cc]ontrol)) the (.*)/i do |roomname|
 		roomname = roomname.downcase.strip
 		if (roomname != "" && roomname != nil && @roomlist.has_key?(roomname))
@@ -129,18 +128,18 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
 	end
 	
-        listen_for /^update my library/i do 
+  listen_for /^update my library/i do 
 		if (@xbmc.connect(@active_room))
 			@xbmc.update_library
 		end
 		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-	end
+  end
 	
-         listen_for /test movies/i do
-         movies = @xbmc.show_movies
-         print movies
-         request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-          end
+  listen_for /test movies/i do
+    movies = @xbmc.show_movies
+    print movies
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
   
 	#play movie or episode
 	listen_for /watch (.+?)(?: in the (.*))?$/i do |title,roomname|
@@ -155,7 +154,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 			  media = @xbmc.find_media(title.split(' season')[0])
 				@active_room = roomname
 			end
-			if (media == "")
+			if (media)
 			  say "Title not found, please try again"
       else
         if (media["tvshowid"] == "")
@@ -188,8 +187,9 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
           end
         end
       end
-		else
-			say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
-		end
-		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    else
+      say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
+    end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
 end
