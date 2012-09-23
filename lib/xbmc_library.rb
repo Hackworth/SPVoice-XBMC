@@ -118,7 +118,7 @@ class XBMCLibrary
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
       movies = xbmc('VideoLibrary.GetMovies', { :properties => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
     end
-    matcher = FuzzyMatch.new(tvshows.each { |tvshow| tvshow["label"] } movies.each { |movie| movie["label"] } )
+    matcher = FuzzyMatch.new(tvshows.each { |tvshow| tvshow["label"] }, movies.each { |movie| movie["label"] } )
     result = matcher.find(title)
     return result
   end
@@ -135,7 +135,7 @@ class XBMCLibrary
 
       if (episode["playcount"] == 0)
         return episode
-      end         
+      end
     } unless episodes.nil?
         return result
   end
