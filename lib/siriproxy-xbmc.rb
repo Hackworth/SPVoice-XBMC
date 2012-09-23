@@ -154,7 +154,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 			  media = @xbmc.find_media(title.split(' season')[0])
 				@active_room = roomname
 			end
-			if (media)
+			if (media == nil)
 			  say "Title not found, please try again"
       else
         if (media["tvshowid"] == "")
