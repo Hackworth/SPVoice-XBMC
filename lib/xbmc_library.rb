@@ -111,10 +111,14 @@ class XBMCLibrary
     result = ""
     if ($apiVersion["version"] == 2)
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
+      movies = xbmc('VideoLibrary.GetMovies', { :fields => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
+    else
+
     else
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
+      movies = xbmc('VideoLibrary.GetMovies', { :properties => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
     end
-    matcher = FuzzyMatch.new(tvshows.each { |tvshow| tvshow["label"] } )
+    matcher = FuzzyMatch.new(tvshows.each { |tvshow| tvshow["label"] }, movies.each { |tvshow| tvshow["label"] } )
     result = matcher.find(title)
     return result
   end
