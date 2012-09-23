@@ -115,14 +115,8 @@ class XBMCLibrary
     else
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
     end
-    tvshows.each { |tvshow|
-
-      tvshowtitle = tvshow["label"].downcase.gsub(/[^0-9A-Za-z]/, '')
-
-      if tvshowtitle.match(title)
-        return tvshow
-      end
-    }
+    matcher = FuzzyMatch.new(tvshows.all, :read => tvshows["label"].downcase.gsub(/[^0-9A-Za-z]/, ''))
+    result = matcher.find(title)
     return result
   end
   
