@@ -177,7 +177,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
             @xbmc.play(episode["file"])
             #search for spefic episode
           else
-            #search for entire season 
+            #search for entire season
             tvshow = @xbmc.play_season(tvshow["tvshowid"], season)	
           end
         else
