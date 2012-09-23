@@ -109,13 +109,12 @@ class XBMCLibrary
   def find_show(title)
     puts "[#{@appname}] Finding #{title} (API version #{$apiVersion["version"]})"
     result = ""
-    title = title.downcase.gsub(/[^0-9A-Za-z]/, '')
     if ($apiVersion["version"] == 2)
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
     else
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
     end
-    matcher = FuzzyMatch.new(tvshows.all, :read => :label)
+    matcher = FuzzyMatch.new(tvshows.all, :read => ["label"])
     result = matcher.find(title)
     return result
   end
