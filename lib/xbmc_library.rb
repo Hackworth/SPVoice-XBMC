@@ -1,5 +1,6 @@
 require 'httparty'
 require 'active_support/core_ext'
+require 'fuzzy_match'
 
 class XBMCLibrary
   # Error class for indicating trouble with authentication against the XBMC Api
