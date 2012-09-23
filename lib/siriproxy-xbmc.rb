@@ -152,7 +152,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 
 		if (@xbmc.connect(roomname))
 			if @roomlist.has_key?(roomname)
-			media = @xbmc.find_media(title.split(' season')[0])
+			  media = @xbmc.find_media(title.split(' season')[0])
 				@active_room = roomname
 			end
 			if (media == "")
