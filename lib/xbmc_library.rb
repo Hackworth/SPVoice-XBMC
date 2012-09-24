@@ -116,7 +116,7 @@ class XBMCLibrary
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
       movies = xbmc('VideoLibrary.GetMovies', { :properties => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
     end
-    media = tvshows
+    media = tvshows.zip(movies).collect { |array| array.inject(&:merge) }
     matcher = FuzzyMatch.new(media.each { |video| video["label"] })
     result = matcher.find(title)
     return result
