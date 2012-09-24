@@ -114,10 +114,11 @@ class XBMCLibrary
       movies = xbmc('VideoLibrary.GetMovies', { :fields => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
     else
       tvshows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
-      movies = xbmc('VideoLibrary.GetMovies', { :properties => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
+      movies = xbmc('VideoLibrary.GetMovies')["movies"]
+      #movies = xbmc('VideoLibrary.GetMovies', { :properties => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
     end
-    media = tvshows
-    media = media.concat(movies)
+    media = movies
+    media = media.concat(tvshows)
     #movies.each { |video| media.push(video) }
     #tvshows.each { |video| media.push(video) }
     matcher = FuzzyMatch.new(media.each { |video| video["label"] })
