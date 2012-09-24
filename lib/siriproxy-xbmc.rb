@@ -157,7 +157,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 			if (media == nil)
 			  say "Title not found, please try again"
       else
-        if (media["tvshowid"] == "")
+        if (media["tvshowid"] == nil)
           say "Now playing \"#{media["title"]}\"", spoken: "Now playing \"#{media["title"]}\""
           @xbmc.play(media["file"])
         else
@@ -179,7 +179,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
           else
             episode = @xbmc.find_first_unwatched_episode(media["tvshowid"])
             if (episode == "")
-              say "No unwatched episode found for the \"#{media["label"]}\""
+              say "No unwatched episode found for \"#{media["label"]}\""
             else
               say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
               @xbmc.play(episode["file"])
