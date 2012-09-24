@@ -157,7 +157,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 			if (media == nil)
 			  say "Title not found, please try again"
       else
-        if (media["tvshowid"] == nil)
+        if ()#media["tvshowid"] == nil)
           say "Now playing \"#{media["title"]}\"", spoken: "Now playing \"#{media["title"]}\""
           @xbmc.play(media["file"])
         else
