@@ -122,13 +122,14 @@ class XBMCLibrary
     end
     # media = movies
     # media = media.concat(tvshows)
-    media = []
-    movies.each { |video| media.push(video) }
-    tvshows.each { |video| media.push(video) }
-    media.sort! { |a,b| a["label"].downcase <=> b["label"].downcase }
-    media.flatten!
-    media.each { |video| puts video["label"] }
-    matcher = FuzzyMatch.new(media.each { |video| video["label"] })
+    #media = []
+    #movies.each { |video| media.push(video) }
+    #tvshows.each { |video| media.push(video) }
+    #media.sort! { |a,b| a["label"].downcase <=> b["label"].downcase }
+    #media.flatten!
+    #media.each { |video| puts video["label"] }
+    #matcher = FuzzyMatch.new(media.each { |video| video["label"] })
+    matcher = FuzzyMatch.new(movies + tvshows, :read => 'label')
     result = matcher.find(title)
     #dmp = DiffMatchPatch.new
     #result = dmp.match_main(media.each { |video| video["label"] }, title, 1000)
