@@ -123,7 +123,7 @@ class XBMCLibrary
     movies.each { |video| media.push(video) }
     tvshows.each { |video| media.push(video) }
     media.sort! { |a,b| a["label"].downcase <=> b["label"].downcase }
-    #media = media.flatten(1)
+    media.flatten!
     media.each { |video| puts video["label"] }
     matcher = FuzzyMatch.new(media.each { |video| video["label"] })
     result = matcher.find(title)
