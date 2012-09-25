@@ -159,7 +159,6 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       else
         if (media["tvshowid"] == nil)
           say "Now playing \"#{media["title"]}\"", spoken: "Now playing \"#{media["title"]}\""
-          request_completed
           @xbmc.play(media["file"])
         else
           numberized_title = Chronic::Numerizer.numerize(title)
