@@ -1,7 +1,9 @@
 require 'httparty'
 require 'active_support/core_ext'
 require 'fuzzy_match'
-require 'diff_match_patch_native'
+#require 'diff_match_patch_native'
+require 'amatch'
+FuzzyMatch.engine = :amatch
 
 class XBMCLibrary
   # Error class for indicating trouble with authentication against the XBMC Api
@@ -126,12 +128,12 @@ class XBMCLibrary
     media.sort! { |a,b| a["label"].downcase <=> b["label"].downcase }
     media.flatten!
     media.each { |video| puts video["label"] }
-    #matcher = FuzzyMatch.new(media.each { |video| video["label"] })
-    #result = matcher.find(title)
-    dmp = DiffMatchPatch.new
-    result = dmp.match_main(media.each { |video| video["label"] }, title)
-    puts result
-    #puts "Result: #{result["label"]}"
+    matcher = FuzzyMatch.new(media.each { |video| video["label"] })
+    result = matcher.find(title)
+    #dmp = DiffMatchPatch.new
+    #result = dmp.match_main(media.each { |video| video["label"] }, title, 1000)
+    #puts result
+    puts "Result: #{result["label"]}"
     return result
   end
   
