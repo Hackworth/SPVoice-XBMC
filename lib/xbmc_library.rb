@@ -126,7 +126,7 @@ class XBMCLibrary
     media.each { |video| puts video["label"] }
     matcher = FuzzyMatch.new(media.each { |video| video["label"] })
     result = matcher.find(title)
-    puts "Result: [#result["label"]]"
+    puts "Result: [#{result["label"]}]"
     return result
   end
   
