@@ -145,7 +145,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
         downloded = @xbmc.recent_episodes
       end
       answer = SiriAnswer.new
-      answer.title = :Downloaded
+      answer.title = "Downloaded"
       downloaded.first(5).each{|download|
         answer.lines << SiriAnswerLine.new(download)
       }
