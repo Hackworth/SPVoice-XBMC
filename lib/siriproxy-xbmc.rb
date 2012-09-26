@@ -134,13 +134,29 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 		end
 		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
-	
-  listen_for /test movies/i do
-    movies = @xbmc.show_movies
-    print movies
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+
+  listen_for /^downloaded (.+?))?$/i do |type|
+    if (@xbmc.connect(@active_room))
+      type = "TV shows"
+      if (type.downcase.strip == "movies")
+        downloded = @xbmc.recent_movies
+        type = "movies"
+      else
+        downloded = @xbmc.recent_episodes
+      end
+      answer = SiriAnswer.new
+      answer.title = :Downloaded
+      downloaded.first(5).each{|download|
+        answer.lines << SiriAnswerLine.new(download)
+      }
+      say "Downloaded these #{type}"
+      send_object answer
+    else
+      say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
+    end
+    request_completed
   end
-  
+	
 	#play movie or episode
 	listen_for /watch (.+?)(?: in the (.*))?$/i do |title,roomname|
 		if (roomname == "" || roomname == nil)

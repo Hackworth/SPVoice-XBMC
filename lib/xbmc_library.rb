@@ -221,20 +221,20 @@ class XBMCLibrary
     end
     return false
   end
-  
+
   def update_library
   xbmc('VideoLibrary.Scan')
   return true
   end
-  
+
   def find_episode(tvshowid, season_number, episode_number)
     result = ""
 	if ($apiVersion["version"] == 2)
       episodes = xbmc('VideoLibrary.GetEpisodes', { :tvshowid => tvshowid, :season => season_number, :fields => ["title", "showtitle", "season", "episode", "runtime", "playcount", "rating", "file"] } )["episodes"]
-	else  
+  else
       episodes = xbmc('VideoLibrary.GetEpisodes', { :tvshowid => tvshowid, :season => season_number, :properties => ["title", "showtitle", "season", "episode", "runtime", "playcount", "rating", "file"] } )["episodes"]
     end
-    
+
     episode_number = episode_number.to_s
     episodes.each { |episode|
     episodenumb = episode["episode"] 
@@ -244,14 +244,16 @@ class XBMCLibrary
     }
         return result
   end
-  
- def show_movies
-    result = "" 
-    movies = xbmc('VideoLibrary.GetRecentlyAddedMovies', { :limits => 10, :properties => ["title", "rating"] } )["movies"]   
+
+  def recent_movies
+    movies = xbmc('VideoLibrary.GetRecentlyAddedMovies', { :limits => 10, :properties => ["title", "rating"] } )["movies"]
     return movies
-    return result
   end
-  
-  
+
+  def recent_episodes
+    episodes = xbmc('VideoLibrary.GetRecentlyAddedEpisodes', { :limits => 10, :properties => ["title"])["episodes"]
+    return episodes
+  end
+
 end
 
