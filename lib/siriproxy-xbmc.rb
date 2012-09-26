@@ -147,7 +147,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       answer = SiriAnswer.new
       answer.title = "Downloaded"
       downloaded.first(5).each{|download|
-        answer.lines << SiriAnswerLine.new(download)
+        answer.lines << SiriAnswerLine.new(download["label"])
       }
       say "Downloaded these #{type}"
       send_object answer
