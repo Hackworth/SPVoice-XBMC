@@ -149,7 +149,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       answer = SiriAnswer.new ("Downloaded") 
       downloaded.first(10).each { |download|
         show = ""
-        if (download["showtitle"] == nil)
+        if (download["showtitle"] != nil)
           show = download["showtitle"] + " "
         end
 
