@@ -139,19 +139,17 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
     if (@xbmc.connect(@active_room))
       type = "TV shows"
       if (type.downcase.strip == "movies")
-        downloded = @xbmc.recent_movies
+        downloaded = @xbmc.recent_movies
         type = "movies"
       else
-        downloded = @xbmc.recent_movies
+        downloaded = @xbmc.recent_movies
       end
       object = SiriAddViews.new
       object.make_root(last_ref_id)
       lines = []
-      puts "Test0"
       downloaded.each { |media|
         puts "test1"
-        puts media
-        #lines << SiriAnswerLine.new(download["label"])
+        lines << SiriAnswerLine.new(download["label"])
       }
       puts "test2"
       say "Downloaded these #{type}"
