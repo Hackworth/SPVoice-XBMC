@@ -146,14 +146,15 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       end
       object = SiriAddViews.new
       object.make_root(last_ref_id)
-      answer = SiriAnswer.new ("Downloaded", [])
-      #answer.title = "Downloaded"
+      answer = SiriAnswer.new ("Downloaded", lines)
+      lines = []
       downloaded.first(1).each{|download|
         puts "test1"
         puts download["label"]
-        answer.lines << SiriAnswerLine.new(download["label"])
+        lines << SiriAnswerLine.new(download["label"])
       }
       say "Downloaded these #{type}"
+      answer = SiriAnswer.new ("Downloaded", lines)
       object.views << SiriAnswerSnippet.new([answer])
       send_object object
     else
