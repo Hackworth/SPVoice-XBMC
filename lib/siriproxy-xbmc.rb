@@ -149,7 +149,8 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       lines = []
       downloaded.first.each { |download|
         puts "test1"
-        puts download["file"]
+        puts download["year"]
+        puts "test0"
         lines << SiriAnswerLine.new(download["label"])
         puts "test2"
       }
