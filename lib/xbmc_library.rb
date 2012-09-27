@@ -251,9 +251,8 @@ class XBMCLibrary
   end
 
   def recent_episodes
-    episodes = "test"
     puts "test3"
-    #episodes = xbmc('VideoLibrary.GetRecentlyAddedEpisodes', { :limits => 10, :properties => ["title"] } )["episodes"]
+    episodes = xbmc('VideoLibrary.GetRecentlyAddedEpisodes', { :limits => 10, :properties => ["title"] } )["episodes"]
     return episodes
   end
 

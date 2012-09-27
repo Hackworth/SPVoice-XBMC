@@ -142,16 +142,15 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
         downloded = @xbmc.recent_movies
         type = "movies"
       else
-        puts "test2"
         downloded = @xbmc.recent_episodes
       end
-      puts "test1"
       object = SiriAddViews.new
       object.make_root(last_ref_id)
       answer = SiriAnswer.new
       answer.title = "Downloaded"
       downloaded.first(1).each{|download|
-        puts downloaded["label"]
+        puts "test1"
+        puts download["label"]
         answer.lines << SiriAnswerLine.new(download["label"])
       }
       say "Downloaded these #{type}"
