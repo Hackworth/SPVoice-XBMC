@@ -144,6 +144,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       else
         downloded = @xbmc.recent_episodes
       end
+      puts test1
       object = SiriAddViews.new
       object.make_root(last_ref_id)
       answer = SiriAnswer.new
