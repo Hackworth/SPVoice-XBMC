@@ -252,7 +252,7 @@ class XBMCLibrary
   end
 
   def recent_episodes
-    episodes = xbmc('VideoLibrary.GetRecentlyAddedEpisodes', { :properties => ["title", "plot", "votes", "rating", "writer," "firstaired", "playcount", "runtime", "director", "productioncode", "season", "episode"] } )["episodes"]
+    episodes = xbmc('VideoLibrary.GetRecentlyAddedEpisodes', { :properties => ["title", "showtitle", "season", "episode", "runtime", "playcount", "rating", "file"] } )["episodes"]
     return episodes
   end
 
