@@ -142,7 +142,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
         type = "movies"
       else
         type = "TV shows"
-        downloaded = @xbmc.recent_movies
+        downloaded = @xbmc.recent_episodes
       end
       object = SiriAddViews.new
       object.make_root(last_ref_id)
