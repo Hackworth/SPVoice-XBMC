@@ -137,11 +137,11 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 
   listen_for /^downloaded (.*)/i do |type|
     if (@xbmc.connect(@active_room))
-      type = "TV shows"
       if (type.downcase.strip == "movies")
         downloaded = @xbmc.recent_movies
         type = "movies"
       else
+        type = "TV shows"
         downloaded = @xbmc.recent_movies
       end
       object = SiriAddViews.new
