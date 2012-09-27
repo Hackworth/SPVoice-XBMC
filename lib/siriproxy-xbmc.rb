@@ -147,9 +147,9 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       object = SiriAddViews.new
       object.make_root(last_ref_id)
       lines = []
-      downloaded.each{|download|
+      downloaded.each{ |download|
         puts "test"
-        lines << SiriAnswerLine.new(download["label"])
+        #lines << SiriAnswerLine.new(download["label"])
       }
       say "Downloaded these #{type}"
       answer = SiriAnswer.new ("Downloaded") #, lines)
