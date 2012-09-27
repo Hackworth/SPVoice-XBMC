@@ -135,7 +135,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
-  listen_for /^downloaded (.*)?$/i do |type|
+  listen_for /^downloaded (.*)/i do |type|
     if (@xbmc.connect(@active_room))
       type = "TV shows"
       if (type.downcase.strip == "movies")
