@@ -135,7 +135,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
-  listen_for /^downloaded (.*)/i do |type|
+  listen_for /^recently added (.*)/i do |type|
     if (@xbmc.connect(@active_room))
       if (type.downcase.strip == "movies")
         downloaded = @xbmc.recent_movies
@@ -147,7 +147,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       object = SiriAddViews.new
       object.make_root(last_ref_id)
       answer = SiriAnswer.new ("Downloaded") 
-      downloaded.first(10).each { |download|
+      downloaded.first(15).each { |download|
         show = ""
         if (download["showtitle"] != nil)
           show = download["showtitle"] + " "

@@ -246,7 +246,6 @@ class XBMCLibrary
   end
 
   def recent_movies
-    #movies = xbmc('VideoLibrary.GetRecentlyAddedMovies', { :limits => 10, :properties => ["title", "rating"] } )["movies"]
     movies = xbmc('VideoLibrary.GetRecentlyAddedMovies', { :properties => ["file", "genre", "director", "title", "originaltitle", "runtime", "year", "playcount", "rating", "lastplayed"] })["movies"]
     return movies
   end
