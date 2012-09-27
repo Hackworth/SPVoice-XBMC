@@ -152,7 +152,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
         if (download["showtitle"] != nil)
           show = download["showtitle"] + " "
         end
-
+        puts download["playcount"]
         answer.lines << SiriAnswerLine.new(show + download["label"])
       }
       say "Downloaded these #{type}"
