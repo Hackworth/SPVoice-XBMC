@@ -148,8 +148,9 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       object.make_root(last_ref_id)
       lines = []
       puts "Test0"
-      downloaded.each{ |media|
+      downloaded.each { |media|
         puts "test1"
+        puts media
         #lines << SiriAnswerLine.new(download["label"])
       }
       puts "test2"
