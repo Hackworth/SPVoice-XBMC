@@ -144,20 +144,20 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
       else
         downloaded = @xbmc.recent_movies
       end
-      object = SiriAddViews.new
-      object.make_root(last_ref_id)
+      #object = SiriAddViews.new
+      #object.make_root(last_ref_id)
       lines = []
       downloaded.first.each { |download|
         puts "test1"
         puts download["year"]
         puts "test0"
-        lines << SiriAnswerLine.new(download["label"])
+        #lines << SiriAnswerLine.new(download["label"])
         puts "test2"
       }
       say "Downloaded these #{type}"
-      answer = SiriAnswer.new ("Downloaded") #, lines)
-      object.views << SiriAnswerSnippet.new([answer])
-      send_object object
+      #answer = SiriAnswer.new ("Downloaded") #, lines)
+      #object.views << SiriAnswerSnippet.new([answer])
+      #send_object object
     else
       say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
     end
