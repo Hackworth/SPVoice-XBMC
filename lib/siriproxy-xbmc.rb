@@ -138,16 +138,17 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
   listen_for /^downloaded/i do #(?: (.*))?$/i do |type|
     if (@xbmc.connect(@active_room))
       type = "TV shows"
-      if (type.downcase.strip == "movies")
+      if (type.downcase.strip == "TV shows")
         downloded = @xbmc.recent_movies
         type = "movies"
+        puts "Test4"
       else
         downloded = @xbmc.recent_episodes
       end
       object = SiriAddViews.new
       object.make_root(last_ref_id)
       lines = []
-      downloaded.first(1).each{|download|
+      downloaded.first.each{|download|
         puts "test1"
         puts download["label"]
         lines << SiriAnswerLine.new(download["label"])
