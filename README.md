@@ -104,11 +104,7 @@ This command stops the video player
 
 Notes
 -----
-Title matching is very basic at the moment.
-Sometimes Siri is not correctly interpreting the name of the TV show, so you may not get a match.
-For instance the show 'two and a half men' is interpreted by Siri as '2 1/2 men', which does not match the title in the TV library.
-However 'knight rider' is interpreted as 'night rider', which partially matches the name, so SiriProxy-XBMC will find it.
-I'm open to suggestions on how to improve this further.
+Fuzzy Matching of titles has been implimented. The plugin will automatically select the closest match in title between your entire TV show and movie library. Let me know if you run into any irregularities with this.
 
 The plugin is currently not able to handle multiple users controlling multiple rooms at the same time.
 It can currently only keep track of the last active room.
