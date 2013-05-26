@@ -186,7 +186,7 @@ class XBMCLibrary
         xbmc('VideoPlaylist.Play')
       else
         playItem = Hash[:file => file]
-        xbmc('Player.Open', { :item => playItem })
+        xbmc('Player.Open', { :item => playItem, :options => {:resume => true} })
       end
     rescue
       puts "[#{@appname}] An error occurred: #{$!}"
