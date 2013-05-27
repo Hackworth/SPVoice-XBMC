@@ -166,7 +166,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
   end
 	
 	#play movie or episode
-	listen_for /watch (.+?)(?: in the (.*))?$/i do |title,roomname|
+	listen_for /watch (.+?)(?: in the (.+?))?(?: time index (.*) )?$/i do |title,roomname,time|
 		if (roomname == "" || roomname == nil)
 			roomname = @active_room
 		else
@@ -210,6 +210,22 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
             end
           end
         end
+      end
+      if time
+        numberized_time = Chronic::Numerizer.numerize(time)
+        hours_check = numberized_time.match('\d+ hour')
+        minutes_check = numberized_time.match('\d+ minute')
+        if hours_check
+          hours = hours_check[0].match('\d+')[0].to_i
+        else
+          hours = 0
+        end
+        if minutes_check
+          minutes = minutes_check[0].match('\d+')[0].to_i
+        else
+          minutes = 0
+        end
+        @xbmc.player_seek(hours, minutes)
       end
     else
       say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"

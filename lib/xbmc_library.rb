@@ -255,5 +255,8 @@ class XBMCLibrary
     return episodes
   end
 
+  def player_seek(hours, minutes)
+    player = get_video_player()
+    xbmc('Player.Seek', { :playerid => player, :value => {:hours => hours, :minutes => minutes} })
+  end
 end
-
