@@ -48,6 +48,23 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
     @xbmc = XBMCLibrary.new(@roomlist, appname)
   end
 
+  def timeseek(time)
+    numberized_time = Chronic::Numerizer.numerize(time)
+    hours_check = numberized_time.match('\d+ hour')
+    minutes_check = numberized_time.match('\d+ minute')
+    if hours_check
+      hours = hours_check[0].match('\d+')[0].to_i
+    else
+      hours = 0
+    end
+    if minutes_check
+      minutes = minutes_check[0].match('\d+')[0].to_i
+    else
+      minutes = 0
+    end
+    @xbmc.player_seek(hours, minutes)
+  end
+
   #show plugin status
   listen_for /[xX] *[bB] *[mM] *[cC] *(.*)/i do |roomname|
     roomname = roomname.downcase.strip
@@ -212,24 +229,20 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
         end
       end
       if time
-        numberized_time = Chronic::Numerizer.numerize(time)
-        hours_check = numberized_time.match('\d+ hour')
-        minutes_check = numberized_time.match('\d+ minute')
-        if hours_check
-          hours = hours_check[0].match('\d+')[0].to_i
-        else
-          hours = 0
-        end
-        if minutes_check
-          minutes = minutes_check[0].match('\d+')[0].to_i
-        else
-          minutes = 0
-        end
-        @xbmc.player_seek(hours, minutes)
+        timeseek(time)
       end
     else
       say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
     end
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    request_completed #always complete your request! otherwise the phone will "spin" at the user!
+  end
+  listen_for /time index (.+?)$/i do |time|
+    roomname = @active_room
+    if (@xbmc.connect(roomname))
+      timeseek(time)
+    else
+      say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
+    end
+    request_completed #always complete your request! otherwise the phone will "spin" at the user!
   end
 end
