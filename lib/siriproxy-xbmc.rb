@@ -29,110 +29,110 @@ require 'chronic'
 ######
 
 class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
-	def initialize(config)
-		appname = "SiriProxy-XBMC"
-		host = config["xbmc_host"]
-		port = config["xbmc_port"]
-		username = config["xbmc_username"]
-		password = config["xbmc_password"]
+  def initialize(config)
+    appname = "SiriProxy-XBMC"
+    host = config["xbmc_host"]
+    port = config["xbmc_port"]
+    username = config["xbmc_username"]
+    password = config["xbmc_password"]
 
-		@roomlist = Hash["default" => Hash["host" => host, "port" => port, "username" => username, "password" => password]]
+    @roomlist = Hash["default" => Hash["host" => host, "port" => port, "username" => username, "password" => password]]
 
-		rooms = File.expand_path('~/.siriproxy/xbmc_rooms.yml')
-		if (File::exists?( rooms ))
-			@roomlist = YAML.load_file(rooms)
-		end
+    rooms = File.expand_path('~/.siriproxy/xbmc_rooms.yml')
+    if (File::exists?( rooms ))
+      @roomlist = YAML.load_file(rooms)
+    end
 
-		@active_room = @roomlist.keys.first
+    @active_room = @roomlist.keys.first
 
-		@xbmc = XBMCLibrary.new(@roomlist, appname)
-	end
+    @xbmc = XBMCLibrary.new(@roomlist, appname)
+  end
 
-	#show plugin status
-	listen_for /[xX] *[bB] *[mM] *[cC] *(.*)/i do |roomname|
-		roomname = roomname.downcase.strip
-		roomcount = @roomlist.keys.length
+  #show plugin status
+  listen_for /[xX] *[bB] *[mM] *[cC] *(.*)/i do |roomname|
+    roomname = roomname.downcase.strip
+    roomcount = @roomlist.keys.length
 
-		if (roomcount > 1 && roomname == "")
-			say "You have #{roomcount} rooms, here is their status:"
+    if (roomcount > 1 && roomname == "")
+      say "You have #{roomcount} rooms, here is their status:"
 
-			@roomlist.each { |name,room|
-				if (@xbmc.connect(name))
-					say "[#{name}] Online", spoken: "The #{name} is online"
-				else
-					say "[#{name}] Offline", spoken: "The #{name} is offline"
-				end
-			}
-		else
-			if (roomname == "")
-				roomname = @roomlist.keys.first
-			end
-			if (roomname != "" && roomname != nil && @roomlist.has_key?(roomname))
-				if (@xbmc.connect(roomname))
-					say "XBMC is online"
-				else 
-					say "XBMC is offline, please check the plugin configuration and check if XBMC is running"
-				end
-			else
-				say "There is no room defined called \"#{roomname}\""
-			end
-		end
-		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-	end
+      @roomlist.each { |name,room|
+        if (@xbmc.connect(name))
+          say "[#{name}] Online", spoken: "The #{name} is online"
+        else
+          say "[#{name}] Offline", spoken: "The #{name} is offline"
+        end
+      }
+    else
+      if (roomname == "")
+        roomname = @roomlist.keys.first
+      end
+      if (roomname != "" && roomname != nil && @roomlist.has_key?(roomname))
+        if (@xbmc.connect(roomname))
+          say "XBMC is online"
+        else 
+          say "XBMC is offline, please check the plugin configuration and check if XBMC is running"
+        end
+      else
+        say "There is no room defined called \"#{roomname}\""
+      end
+    end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
 
-	# stop playing
-	listen_for /^stop/i do 
-		if (@xbmc.connect(@active_room))
-			if @xbmc.stop()
-				say "Stopping video"
-			else
-				say "There is no video playing"
-			end
-		end
-		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-	end
+  # stop playing
+  listen_for /^stop/i do 
+    if (@xbmc.connect(@active_room))
+      if @xbmc.stop()
+        say "Stopping video"
+      else
+        say "There is no video playing"
+      end
+    end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
 
-	# pause playing
-	listen_for /^pause/i do 
-		if (@xbmc.connect(@active_room))
-			if @xbmc.pause()
-				say "Pausing video"
-			else
-				say "There is no video playing"
-			end
-		end
-		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-	end
+  # pause playing
+  listen_for /^pause/i do 
+    if (@xbmc.connect(@active_room))
+      if @xbmc.pause()
+        say "Pausing video"
+      else
+        say "There is no video playing"
+      end
+    end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
 
-	# resume playing
-	listen_for /^resume|unpause|continue/i do 
-		if (@xbmc.connect(@active_room))
-			if @xbmc.pause()
-				say "I resumed the video", spoken: "Resuming video"
-			else
-				say "There is no video playing"
-			end
-		end
-		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-	end
+  # resume playing
+  listen_for /^resume|unpause|continue/i do 
+    if (@xbmc.connect(@active_room))
+      if @xbmc.pause()
+        say "I resumed the video", spoken: "Resuming video"
+      else
+        say "There is no video playing"
+      end
+    end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
 
-	# set default room
-	listen_for /(?:(?:[Ii]'m in)|(?:[Ii] am in)|(?:[Uu]se)|(?:[Cc]ontrol)) the (.*)/i do |roomname|
-		roomname = roomname.downcase.strip
-		if (roomname != "" && roomname != nil && @roomlist.has_key?(roomname))
-			@active_room = roomname
-			say "Noted.", spoken: "Commands will be sent to the \"#{roomname}\""
-		else
-			say "There is no room defined called \"#{roomname}\""
-		end
-		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-	end
-	
+  # set default room
+  listen_for /(?:(?:[Ii]'m in)|(?:[Ii] am in)|(?:[Uu]se)|(?:[Cc]ontrol)) the (.*)/i do |roomname|
+    roomname = roomname.downcase.strip
+    if (roomname != "" && roomname != nil && @roomlist.has_key?(roomname))
+      @active_room = roomname
+      say "Noted.", spoken: "Commands will be sent to the \"#{roomname}\""
+    else
+      say "There is no room defined called \"#{roomname}\""
+    end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
+
   listen_for /^update my library/i do 
-		if (@xbmc.connect(@active_room))
-			@xbmc.update_library
-		end
-		request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    if (@xbmc.connect(@active_room))
+      @xbmc.update_library
+    end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
   listen_for /^recently added (.*)/i do |type|
@@ -164,22 +164,22 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
     end
     request_completed
   end
-	
-	#play movie or episode
-	listen_for /watch (.+?)(?: in the (.+?))?(?: time index (.*) )?$/i do |title,roomname,time|
-		if (roomname == "" || roomname == nil)
-			roomname = @active_room
-		else
-			roomname = roomname.downcase.strip
-		end
 
-		if (@xbmc.connect(roomname))
-			if @roomlist.has_key?(roomname)
-			  media = @xbmc.find_media(title.split(' season')[0])
-				@active_room = roomname
-			end
-			if (media == nil)
-			  say "Title not found, please try again"
+  #play movie or episode
+  listen_for /watch (.+?)(?: in the (.+?))?(?: time index (.*) )?$/i do |title,roomname,time|
+    if (roomname == "" || roomname == nil)
+      roomname = @active_room
+    else
+      roomname = roomname.downcase.strip
+    end
+
+    if (@xbmc.connect(roomname))
+      if @roomlist.has_key?(roomname)
+        media = @xbmc.find_media(title.split(' season')[0])
+        @active_room = roomname
+      end
+      if (media == nil)
+        say "Title not found, please try again"
       else
         if (media["tvshowid"] == nil)
           say "Now playing \"#{media["title"]}\"", spoken: "Now playing \"#{media["title"]}\""
