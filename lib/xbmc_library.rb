@@ -124,9 +124,9 @@ class XBMCLibrary
   def find_first_unwatched_episode(tvshowid)
     puts "[#{@appname}] Looking up first unwatched episode (API version #{$apiVersion["version"]})"
     result = ""
-	if ($apiVersion["version"] == 2)
+    if ($apiVersion["version"] == 2)
       episodes = xbmc('VideoLibrary.GetEpisodes', { :tvshowid => tvshowid, :fields => ["title", "showtitle", "season", "episode", "runtime", "playcount", "rating", "file"] } )["episodes"]
-	else  
+    else  
       episodes = xbmc('VideoLibrary.GetEpisodes', { :tvshowid => tvshowid, :properties => ["title", "showtitle", "season", "episode", "runtime", "playcount", "rating", "file"] } )["episodes"]
     end
     episodes.each { |episode|
@@ -135,7 +135,17 @@ class XBMCLibrary
         return episode
       end
     } unless episodes.nil?
-        return result
+    return result
+  end
+
+  def find_unwatched_tv_shows
+    puts "[#{@appname}] Looking up unwatched TV Shows (API version #{$apiVersion["version"]})"
+    if ($apiVersion["version"] == 2)
+      #tv_shows = xbmc('VideoLibrary.GetTVShows')["tvshows"]
+    else
+      tv_shows = xbmc('VideoLibrary.GetTVShows', {:filter => {:field => "playcount", :operator => "is", :value => "0" }, :properties => ["lastplayed"], :sort => {:order => "descending", :method => "lastplayed"} } )["tvshows"]
+    end
+    return tv_shows
   end
 
 	def play_season(tvshowid, season_number)

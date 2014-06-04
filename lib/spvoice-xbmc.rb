@@ -151,6 +151,22 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
     request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
+  listen_for /^unwatched tv(.*)/i do |type|
+    if (@xbmc.connect(@active_room))
+      type = "TV shows"
+      unwatched = @xbmc.find_unwatched_tv_shows
+      answer = Array.new
+      answer << "Unwatched #{type}: "
+      unwatched.first(15).each { |item|
+        answer << item["label"]
+      }
+      say "#{answer.join("\n")}"
+    else
+      say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
+    end
+    request_completed
+  end
+
   listen_for /^recently added (.*)/i do |type|
     if (@xbmc.connect(@active_room))
       if (type.downcase.strip == "movies")
