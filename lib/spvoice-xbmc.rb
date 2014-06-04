@@ -1,5 +1,5 @@
-# Copyright (C) 2012 by Jordan Hackworth <dev@jordanhackworth.com>
 #
+# Copyright (C) 2012 by Jordan Hackworth <dev@jordanhackworth.com>
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -19,7 +19,6 @@
 # THE SOFTWARE.
 
 require 'cora'
-require 'siri_objects'
 require 'xbmc_library'
 require 'chronic'
 
@@ -28,9 +27,9 @@ require 'chronic'
 # Remember to configure the host and port for your XBMC computer in config.yml in the SiriProxy dir
 ######
 
-class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
+class SPVoice::Plugin::XBMC < SPVoice::Plugin
   def initialize(config)
-    appname = "SiriProxy-XBMC"
+    appname = "SPVoice-XBMC"
     host = config["xbmc_host"]
     port = config["xbmc_port"]
     username = config["xbmc_username"]
@@ -38,7 +37,7 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
 
     @roomlist = Hash["default" => Hash["host" => host, "port" => port, "username" => username, "password" => password]]
 
-    rooms = File.expand_path('~/.siriproxy/xbmc_rooms.yml')
+    rooms = File.expand_path('~/.spvoice/xbmc_rooms.yml')
     if (File::exists?( rooms ))
       @roomlist = YAML.load_file(rooms)
     end
@@ -161,21 +160,18 @@ class SiriProxy::Plugin::XBMC < SiriProxy::Plugin
         type = "TV shows"
         downloaded = @xbmc.recent_episodes
       end
-      object = SiriAddViews.new
-      object.make_root(last_ref_id)
-      answer = SiriAnswer.new ("Downloaded") 
+      answer = Array.new
+      answer << "Downloaded these #{type}: "
       downloaded.first(15).each { |download|
         show = ""
         if (download["showtitle"] != nil)
           show = download["showtitle"] + " "
         end
         if (download["playcount"] == 0)
-          answer.lines << SiriAnswerLine.new(show + download["label"])
+          answer << show + download["label"]
         end
       }
-      say "Downloaded these #{type}"
-      object.views << SiriAnswerSnippet.new([answer])
-      send_object object
+      say "#{answer.join("\n")}"
     else
       say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
     end

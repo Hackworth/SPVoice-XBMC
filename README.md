@@ -1,15 +1,12 @@
-SiriProxy-XBMC
+SPVoice-XBMC
 ==============
 
 About
 -----
-SiriProxy-XBMC is a [Siri Proxy](https://github.com/plamoni/SiriProxy) plugin that allows you to send commands to [XBMC](http://www.xbmc.org).
+SPVoice-XBMC is a [SPVoice Proxy](https://github.com/Hackworth/SPVoice) plugin that allows you to send commands to [XBMC](http://www.xbmc.org).
 
-SiriProxy-XBMC was created by brainwave9.
+SPVoice-XBMC was created by Jordan Hackworth, based on SiriProxy-XBMC was created by brainwave9.
 You are free to use, modify, and redistribute this gem as long as you give proper credit to the original author.
-
-*Note: I haven't coded in ruby before, so feel free to point out mistakes/corrections, etc, etc.
-
 
 Credits
 -------
@@ -18,27 +15,19 @@ This project uses parts of [xbmc-client](https://github.com/colszowka/xbmc-clien
 
 Installation
 ------------
-To install SiriProxy-XBMC, add the following to your Siri Proxy config.yml file (~/.siriproxy/config.yml):
+To install SPVoice-XBMC, add the following to your SPVoice Proxy config.yml file (~/.spvoice/config.yml):
 
     - name: 'XBMC'
-      git: 'git://github.com/Hackworth/SiriProxy-XBMC.git'
+      git: 'git://github.com/Hackworth/SPVoice-XBMC.git'
       xbmc_host: '192.168.1.4' #Internal IP address of your computer running XBMC.
       xbmc_port: 8080          #Port that the XBMC interface listens to.
       xbmc_username: 'xbmc'    #Username as specified in XBMC
       xbmc_password: 'xbmc'    #password as specified in XBMC
 
-Stop Siri Proxy (CTRL-C if it's running in the foreground or `killall siriproxy` if it's running in the background)
-
-Update Siri Proxy (`siriproxy update`)
-          
-Start Siri Proxy (`rvmsudo siriproxy server`)
-
-The SiriProxy-XBMC plugin should now be ready for use.
-
 
 Multiroom configuration
 -----------------------
-If you have multiple XBMC systems in your house you can configure SiriProxy-XBMC to control them.
+If you have multiple XBMC systems in your house you can configure SPVoice-XBMC to control them.
 To do so, create a configuration file called xbmc_rooms.yml and put in the same folder as config.yml
 Here is an example of the rooms file:
 
@@ -53,8 +42,8 @@ Here is an example of the rooms file:
       username: 'xbmc'
       password: 'xbmc'
 
-The names 'living room' and 'game room' is what you use as room name when talking to Siri.
-Use lowercase letters only for the room names, that is what SiriProxy-XBMC expects.
+The names 'living room' and 'game room' is what you use as room name when using the plugin.
+Use lowercase letters only for the room names, that is what SPVoice-XBMC expects.
 When you create the file xbmc_rooms.yml, the settings in config.yml are no longer used.
 
 
@@ -65,7 +54,7 @@ The currently implemented commands are:
     xbmc [room]
 
 This command can be used to test the plugin is working.
-Siri will respond with "XBMC is online"
+SPVoice will respond with "XBMC is online"
 Optionally you can specify a room name if you have configured the plugin for multiple rooms.
 
     I'm in the <room name>
@@ -108,4 +97,3 @@ Fuzzy Matching of titles has been implimented. The plugin will automatically sel
 
 The plugin is currently not able to handle multiple users controlling multiple rooms at the same time.
 It can currently only keep track of the last active room.
-I hope to find a way of identifying seperate users so I can keep track of active rooms per user.
