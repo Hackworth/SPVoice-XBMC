@@ -5,7 +5,7 @@ About
 -----
 SPVoice-XBMC is a [SPVoice Proxy](https://github.com/Hackworth/SPVoice) plugin that allows you to send commands to [XBMC](http://www.xbmc.org).
 
-SPVoice-XBMC was created by Jordan Hackworth, based on SiriProxy-XBMC was created by brainwave9.
+SPVoice-XBMC was created by Jordan Hackworth, based on SiriProxy-XBMC created by brainwave9.
 You are free to use, modify, and redistribute this gem as long as you give proper credit to the original author.
 
 Credits
