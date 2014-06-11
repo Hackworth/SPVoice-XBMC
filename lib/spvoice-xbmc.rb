@@ -147,8 +147,10 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   listen_for /^update my library/i do 
     if (@xbmc.connect(@active_room))
       @xbmc.update_library
+      say "XBMC Library updating..."
+    else
+      say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
     end
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
   listen_for /^unwatched tv(.*)/i do |type|
