@@ -169,7 +169,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
     request_completed
   end
 
-  listen_for /^recently added (.*)/i do |type|
+  listen_for /^recently added(.*)/i do |type|
     if (@xbmc.connect(@active_room))
       if (type.downcase.strip == "movies")
         downloaded = @xbmc.recent_movies
