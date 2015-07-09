@@ -48,21 +48,23 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   end
 
   def timeseek(time)
-    numberized_time = Chronic::Numerizer.numerize(time)
-    hours_check = numberized_time.match('\d+ hour')
-    minutes_check = numberized_time.match('\d+ minute')
-    if hours_check
-      hours = hours_check[0].match('\d+')[0].to_i
-    else
-      hours = 0
+    if (time)
+      numberized_time = Chronic::Numerizer.numerize(time)
+      hours_check = numberized_time.match('\d+ hour')
+      minutes_check = numberized_time.match('\d+ minute')
+      if hours_check
+        hours = hours_check[0].match('\d+')[0].to_i
+      else
+        hours = 0
+      end
+      if minutes_check
+        minutes = minutes_check[0].match('\d+')[0].to_i
+      else
+        minutes = 0
+      end
+      @xbmc.player_seek(hours, minutes)
+      return "Seeking to #{hours} hours #{minutes} minutes"
     end
-    if minutes_check
-      minutes = minutes_check[0].match('\d+')[0].to_i
-    else
-      minutes = 0
-    end
-    @xbmc.player_seek(hours, minutes)
-    say "Seeking to #{hours} hours #{minutes} minutes"
   end
 
   #show plugin status
@@ -87,7 +89,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
       if (roomname != "" && roomname != nil && @roomlist.has_key?(roomname))
         if (@xbmc.connect(roomname))
           say "XBMC is online"
-        else 
+        else
           say "XBMC is offline, please check the plugin configuration and check if XBMC is running"
         end
       else
@@ -98,7 +100,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   end
 
   # stop playing
-  listen_for /^stop/i do 
+  listen_for /^stop/i do
     if (@xbmc.connect(@active_room))
       if @xbmc.stop()
         say "Video Stopped"
@@ -122,7 +124,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   end
 
   # resume playing
-  listen_for /^resume|unpause|continue/i do 
+  listen_for /^resume|unpause|continue/i do
     if (@xbmc.connect(@active_room))
       if @xbmc.pause()
         say "I resumed the video", spoken: "Resuming video"
@@ -145,7 +147,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
     request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
-  listen_for /^update my library/i do 
+  listen_for /^update my library/i do
     if (@xbmc.connect(@active_room))
       @xbmc.update_library
       say "XBMC Library updating..."
@@ -217,7 +219,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
         say "Title not found, please try again"
       else
         if (media["tvshowid"] == nil)
-          say "Now playing \"#{media["title"]}\"", spoken: "Now playing \"#{media["title"]}\""
+          say "Now playing \"#{media["title"]}\" #{timeseek(time)}"
           @xbmc.play(media["file"])
         else
           numberized_title = Chronic::Numerizer.numerize(title)
@@ -228,26 +230,23 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
             if episode_check
               episode = episode_check[0].match('\d+')
               episode = @xbmc.find_episode(media["tvshowid"], season, episode)
-              say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken: "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
+              say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]}) #{timeseek(time)}"
               @xbmc.play(episode["file"])
               #search for spefic episode
             else
               #search for entire season
-              media = @xbmc.play_season(media["tvshowid"], season)	
+              media = @xbmc.play_season(media["tvshowid"], season)
             end
           else
             episode = @xbmc.find_first_unwatched_episode(media["tvshowid"])
             if (episode == "")
               say "No unwatched episode found for \"#{media["label"]}\""
             else
-              say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]})", spoken:  "Now playing \(#{episode["showtitle"]}, #{episode["season"]} X, #{episode["episode"]})"
+              say "Now playing \"#{episode["title"]}\" (#{episode["showtitle"]}, Season #{episode["season"]}, Episode #{episode["episode"]}) #{timeseek(time)}"
               @xbmc.play(episode["file"])
             end
           end
         end
-      end
-      if time
-        timeseek(time)
       end
     else
       say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
@@ -257,7 +256,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   listen_for /time index (.+?)$/i do |time|
     roomname = @active_room
     if (@xbmc.connect(roomname))
-      timeseek(time)
+      say "#{timeseek(time)}"
     else
       say "The XBMC interface is unavailable, please check the plugin configuration or check if XBMC is running"
     end
