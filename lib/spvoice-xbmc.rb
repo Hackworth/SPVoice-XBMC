@@ -62,6 +62,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
       minutes = 0
     end
     @xbmc.player_seek(hours, minutes)
+    say "Seeking to #{hours} hours #{minutes} minutes"
   end
 
   #show plugin status
@@ -100,7 +101,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   listen_for /^stop/i do 
     if (@xbmc.connect(@active_room))
       if @xbmc.stop()
-        say "Stopping video"
+        say "Video Stopped"
       else
         say "There is no video playing"
       end
@@ -109,7 +110,7 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   end
 
   # pause playing
-  listen_for /^pause/i do 
+  listen_for /^pause/i do
     if (@xbmc.connect(@active_room))
       if @xbmc.pause()
         say "Pausing video"
@@ -197,7 +198,10 @@ class SPVoice::Plugin::XBMC < SPVoice::Plugin
   end
 
   #play movie or episode
-  listen_for /watch (.+?)(?: in the (.+?))?(?: time index (.*) )?$/i do |title,roomname,time|
+  listen_for /watch (.+?)(?: in the (.+?))?(?: time index (.*))?$/i do |title,roomname,time|
+    puts title
+    puts roomname
+    puts time
     if (roomname == "" || roomname == nil)
       roomname = @active_room
     else
